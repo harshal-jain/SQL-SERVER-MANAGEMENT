@@ -1,0 +1,600 @@
+CREATE DATABASE db_ShriRam
+
+use db_ShriRam
+
+CREATE TABLE tbl_Student
+(
+	RollNo int, 
+	SName	varchar(200)
+)
+
+
+CREATE TABLE tbl_Student1
+(
+	RollNo int identity(1,2), 
+	SName	varchar(200)
+)
+
+
+CREATE TABLE tbl_Student2
+(
+	RollNo int PRIMARY KEY, 
+	SName	varchar(200)
+)
+
+
+CREATE TABLE tbl_Student3
+(
+	RollNo int PRIMARY KEY identity(1,1), 
+	SName	varchar(200)
+)
+
+CREATE TABLE tbl_Student4
+(
+	RollNo int , 
+	SName	varchar(200) not null
+)
+
+
+
+CREATE TABLE tbl_Student5
+(
+	RollNo int , 
+	SName  varchar(200) not null,
+	Email  varchar(200) unique
+)
+
+
+CREATE TABLE tbl_Student6
+(
+	RollNo int , 
+	SName  varchar(200) not null,
+	Age  int check (Age >15),
+	Age1  int check (Age1 >= 15),
+	Age2  int check (Age2 >= 15 and Age2 <= 20)
+)
+
+
+CREATE TABLE tbl_Student7
+(
+	RollNo int , 
+	SName  varchar(200) not null,
+	City  varchar(200) default ('Jaipur')
+)
+
+
+ALTER TABLE tbl_Student7
+Add Mobile int
+
+ALTER TABLE tbl_Student7
+ALTER COLUMN Mobile varchar(200)
+
+ALTER TABLE tbl_Student7
+DROP COLUMN Mobile 
+
+DROP TABLE tbl_Student7
+
+DROP DATABASE db_ShriRam
+
+INSERT INTO tbl_Student
+(RollNo, SName)
+VALUES 
+(1,'Ayush')
+
+
+UPDATE tbl_Student
+SET SName='Ayush New'
+WHERE RollNo=1
+
+DELETE FROM tbl_Student
+
+SELECT * FROM tbl_item 
+
+SELECT IName, Price FROM tbl_item 
+
+SELECT IName, Qty, Price, Qty * Price as Amt FROM tbl_item 
+
+SELECT IName 'Item Name', Price FROM tbl_item 
+
+SELECT IName as 'Item Name', Price FROM tbl_item 
+
+SELECT IName, Price FROM tbl_item 
+Order by Price
+
+SELECT IName, Price FROM tbl_item 
+Order by Price DESC
+
+SELECT * FROM tbl_item 
+ORDER BY Company
+
+SELECT * FROM tbl_item 
+ORDER BY Company, IName
+
+SELECT * FROM tbl_item 
+ORDER BY Company, IName DESC
+
+SELECT * FROM tbl_item where qty>5
+ORDER BY Price, Company, IName DESC
+SELECT * FROM tbl_item where qty<5
+SELECT * FROM tbl_item where qty between 1 and 7
+SELECT * FROM tbl_item where qty>=1 and qty<=7 
+
+sp_help tbl_ayush
+
+
+SELECT * FROM tbl_item 
+where Qty >= 4
+
+
+SELECT * FROM tbl_item 
+where Qty >= 4 and Qty <=6
+
+SELECT * FROM tbl_item 
+where Qty BETWEEN 4 and 6
+
+SELECT * FROM tbl_item 
+where Qty NOT BETWEEN 4 and 6
+
+SELECT * FROM tbl_item 
+where Company = 'aa'
+
+SELECT * FROM tbl_item 
+where Company = 'aa' OR Company = 'bb'
+
+
+SELECT * FROM tbl_item 
+where Company IN ('aa','bb')
+
+SELECT * FROM tbl_item 
+where Company NOT IN ('aa','bb')
+
+SELECT * FROM tbl_item 
+where Company IN ('aa','bb')
+and Qty BETWEEN 4 and 6
+
+SELECT * FROM tbl_item 
+where NOT (Company IN ('aa','bb') and Qty BETWEEN 4 and 6)
+
+SELECT * FROM tbl_item 
+where (Company IN ('aa','bb') and Qty BETWEEN 4 and 6)
+
+
+SELECT * FROM tbl_item 
+WHERE Company is NULL
+
+SELECT * FROM tbl_item 
+WHERE Company is not NULL
+
+
+SELECT SUM(Qty) FROM tbl_item 
+SELECT AVG(Qty) FROM tbl_item 
+SELECT MIN(Qty) FROM tbl_item 
+SELECT MAX(Qty) FROM tbl_item 
+SELECT Count(Qty) FROM tbl_item 
+
+
+SELECT SUM(IName) FROM tbl_item 
+SELECT AVG(IName) FROM tbl_item 
+SELECT MIN(IName) FROM tbl_item 
+SELECT MAX(IName) FROM tbl_item 
+SELECT Count(IName) FROM tbl_item 
+
+
+SELECT Sum(Qty*Price) FROM tbl_item 
+WHERE Company='aa'
+
+SELECT Company CompanyName, Sum(Qty*Price) as stock FROM tbl_item 
+GROUP BY Company 
+ORDER BY stock DESC
+
+CompanyName     Stock
+aa				100
+bb				200
+
+
+SELECT Company CompanyName, Sum(Qty*Price) as stock 
+FROM tbl_item 
+GROUP BY Company 
+Having Sum(Qty*Price) > 100 
+
+
+/*
+	% == zero or more char
+	_ == Exactly one Char
+	^ == Not
+	[]== Range 	
+*/
+
+
+SELECT * FROM tbl_Item
+WHERE IName Like 'a%'
+
+SELECT * FROM tbl_Item
+WHERE IName Like '%a'
+
+SELECT * FROM tbl_Item
+WHERE IName Like '%a%'
+
+SELECT * FROM tbl_Item
+WHERE IName Like '_a%'
+
+SELECT * FROM tbl_Item
+WHERE IName Like '[a-d]%'
+
+SELECT * FROM tbl_Item
+WHERE IName Like '_[a-d]%'
+
+SELECT * FROM tbl_Item
+WHERE IName Like '[^a-d]%'
+
+SELECT * FROM tbl_Item
+WHERE IName Like '_[^a-d]%'
+
+tbl_Country(CountryId, CountryName)
+tbl_State(StateId, CountryId, StateName)
+tbl_City(CityId, StateId, CityName)
+tbl_Colony(ColonyId, CityId, ColonyName)
+tbl_Person(PersonId, ColonyId, PersonName)
+
+SELECT * 
+FROM tbl_Country, tbl_State
+WHERE tbl_Country.CountryId = tbl_State.CountryId
+
+--Left Outer Join
+SELECT * 
+FROM tbl_Country LEFT OUTER JOIN tbl_State
+ON tbl_Country.CountryId = tbl_State.CountryId
+
+--Right Outer Join
+SELECT * 
+FROM tbl_Country RIGHT OUTER JOIN tbl_State
+ON tbl_Country.CountryId = tbl_State.CountryId
+
+
+--Full Outer Join
+SELECT * 
+FROM tbl_Country FULL OUTER JOIN tbl_State
+ON tbl_Country.CountryId = tbl_State.CountryId
+
+-------------------------------------------------
+
+SELECT * 
+FROM tbl_City, tbl_State, tbl_Country
+WHERE tbl_Country.CountryId = tbl_State.CountryId
+and tbl_City.StateId = tbl_State.StateId
+
+
+SELECT * 
+FROM tbl_Colony, tbl_City, tbl_State, tbl_Country
+WHERE tbl_Country.CountryId = tbl_State.CountryId
+and tbl_City.StateId = tbl_State.StateId
+and tbl_Colony.CityId = tbl_City.CityId
+
+
+SELECT * 
+FROM tbl_Person, tbl_Colony, tbl_City, tbl_State, tbl_Country
+WHERE tbl_Country.CountryId = tbl_State.CountryId
+and tbl_City.StateId = tbl_State.StateId
+and tbl_Colony.CityId = tbl_City.CityId
+and tbl_Colony.ColonyId = tbl_Person.ColonyId
+
+
+--Left Outer Join
+SELECT * 
+FROM tbl_State LEFT OUTER JOIN tbl_Country 
+ON tbl_State.CountryId = tbl_Country.CountryId 
+
+--Left Outer Join
+SELECT * 
+FROM tbl_City LEFT OUTER JOIN tbl_State 
+ON tbl_State.StateId = tbl_City.StateId 
+
+LEFT OUTER JOIN tbl_Country 
+ON tbl_State.CountryId = tbl_Country.CountryId 
+
+
+--Left Outer Join
+SELECT * 
+FROM tbl_Colony LEFT OUTER JOIN tbl_City 
+ON tbl_Colony.CityId = tbl_City.CityId 
+
+LEFT OUTER JOIN tbl_State 
+ON tbl_State.StateId = tbl_City.StateId 
+
+LEFT OUTER JOIN tbl_Country 
+ON tbl_State.CountryId = tbl_Country.CountryId 
+
+
+--Right Outer Join
+SELECT * 
+FROM tbl_Colony RIGHT OUTER JOIN tbl_City 
+ON tbl_Colony.CityId = tbl_City.CityId 
+
+RIGHT OUTER JOIN tbl_State 
+ON tbl_State.StateId = tbl_City.StateId 
+
+RIGHT OUTER JOIN tbl_Country 
+ON tbl_State.CountryId = tbl_Country.CountryId 
+
+
+
+--Full Outer Join
+SELECT * 
+FROM tbl_Colony FULL OUTER JOIN tbl_City 
+ON tbl_Colony.CityId = tbl_City.CityId 
+
+FULL OUTER JOIN tbl_State 
+ON tbl_State.StateId = tbl_City.StateId 
+
+FULL OUTER JOIN tbl_Country 
+ON tbl_State.CountryId = tbl_Country.CountryId 
+
+SELECT * FROM tbl_Person 
+WHERE ColonyId IN
+(SELECT ColonyId FROM tbl_Colony WHERE CityId =1) 
+
+
+
+SELECT * FROM tbl_Person 
+WHERE ColonyId IN
+(SELECT ColonyId FROM tbl_Colony WHERE CityId = 
+(SELECT CityId FROM tbl_City WHERE CityName= 'City1'))
+
+
+
+SELECT ColonyName, Count(*) as Pop
+FROM tbl_Person, tbl_Colony
+WHERE  tbl_Person.ColonyId = tbl_Colony.ColonyId
+GROUP BY ColonyName
+
+
+SELECT CityName, Count(CityName) as Pop
+FROM tbl_Person, tbl_Colony, tbl_City
+WHERE  tbl_Person.ColonyId = tbl_Colony.ColonyId
+and tbl_Colony.CityId= tbl_City.CityId
+GROUP BY CityName
+
+
+SELECT StateName, Count(StateName) as Pop
+FROM tbl_Person, tbl_Colony, tbl_City, tbl_State
+WHERE  tbl_Person.ColonyId = tbl_Colony.ColonyId
+and tbl_Colony.CityId= tbl_City.CityId
+and tbl_State.StateId = tbl_City.StateId
+GROUP BY StateName
+
+
+SELECT StateName, Count(StateName) as Pop
+FROM tbl_Person, tbl_Colony, tbl_City, tbl_State
+WHERE  tbl_Person.ColonyId = tbl_Colony.ColonyId
+and tbl_Colony.CityId= tbl_City.CityId
+and tbl_State.StateId = tbl_City.StateId
+GROUP BY StateName
+
+
+CREATE PROC sp_Country
+AS
+
+SELECT * FROM tbl_Country
+
+
+sp_Country 2
+
+ALTER PROC sp_Country
+@id int
+AS
+
+IF @id=1
+BEGIN
+	SELECT * FROM tbl_Country
+END
+
+IF @id=2
+BEGIN
+	SELECT * FROM tbl_State
+END
+
+--sp_Country 2,3
+
+ALTER PROC sp_Country
+@id int, 
+@cid int=0
+AS
+
+IF @id=1
+BEGIN
+	SELECT * FROM tbl_Country
+END
+
+IF @id=2
+BEGIN
+	SELECT * FROM tbl_Country WHERE CountryId = @cid
+END
+
+
+
+--sp_Country 2,3
+
+ALTER PROC sp_Country
+@id int, 
+@cid int=0
+AS
+
+IF @id=1
+BEGIN
+	SELECT * FROM tbl_Country
+END
+
+IF @id=2
+BEGIN
+	SELECT * FROM tbl_Country WHERE CountryId = @cid
+END
+
+IF @id=3
+BEGIN
+	DELETE FROM tbl_Country WHERE CountryId = @cid
+END
+
+
+--sp_Country 'Id',3
+
+ALTER PROC sp_Country
+@id varchar(20), 
+@cid int=0
+AS
+
+IF @id='All'
+BEGIN
+	SELECT * FROM tbl_Country
+END
+
+IF @id='Id'
+BEGIN
+	SELECT * FROM tbl_Country WHERE CountryId = @cid
+END
+
+IF @id='Del'
+BEGIN
+	DELETE FROM tbl_Country WHERE CountryId = @cid
+END
+
+
+
+-----
+
+
+--sp_Country 'Update','df',7
+select * from tbl_Country
+ALTER PROC sp_Country
+@id varchar(20), 
+@cname varchar(50),
+@cid int=0
+
+AS
+
+IF @id='All'
+BEGIN
+	SELECT * FROM tbl_Country
+END
+
+IF @id='Id'
+BEGIN
+	SELECT * FROM tbl_Country WHERE CountryId = @cid
+END
+
+IF @id='Del'
+BEGIN
+	DELETE FROM tbl_Country WHERE CountryId = @cid
+END
+
+
+
+IF @id='INSERT'
+BEGIN
+	Insert into tbl_Country (Country_Name) values (@cname)
+END
+
+
+IF @id='Update'
+BEGIN
+	update tbl_Country 
+	set Country_Name = @cname where CountryId=@cid
+END
+
+IF @id='Del'
+BEGIN
+	DELETE FROM tbl_Country WHERE CountryId = @cid
+END
+
+
+
+----
+
+
+
+
+
+
+
+
+CREATE VIEW tbl_ItemNew
+as
+SELECT ItemId, IName, Price FROM tbl_Item
+SELECT * FROM tbl_Item
+
+--date functions
+SELECT Getdate()
+
+SELECT Datename(D,Getdate())
+SELECT Datename(DAYOFYEAR,Getdate())
+SELECT Datename(DD,Getdate())
+SELECT Datename(DW,Getdate())
+SELECT Datename(DY,Getdate())
+SELECT Datename(HH,Getdate())
+SELECT Datename(MM,Getdate())
+SELECT Datename(MM,Getdate())
+SELECT Datename(MM,Getdate())
+SELECT Datename(MM,Getdate())
+SELECT Datename(MM,Getdate())
+
+
+SELECT Datepart(DAY,Getdate())
+
+SELECT Dateadd(D,24,Getdate())
+SELECT Dateadd(M,24,Getdate())
+
+SELECT Datediff(D,'7/7/1999',Getdate())
+
+SELECT 19*365
+
+SELECT Isdate('7/7/1999')
+
+SELECT DAY(GETDATE())
+SELECT Month(GETDATE())
+SELECT year(GETDATE())
+
+---Math Functions
+SELECT ABS(-5)
+SELECT ABS(6)
+SELECT Ceiling(4.1)
+SELECT Ceiling(4.49)
+SELECT Ceiling(4.5)
+SELECT Ceiling(4.99)
+
+SELECT floor(4.1)
+SELECT floor(4.49)
+SELECT floor(4.5)
+SELECT floor(4.99)
+
+SELECT PI()
+
+SELECT Power(2,7)
+SELECT rand()
+
+SELECT round(4.11,1)
+SELECT round(4.49,1)
+
+SELECT sqrt(9)
+SELECT square(9)
+
+----String functions
+SELECT Ascii('a')
+SELECT char(97)
+SELECT charindex('a','bcade')
+SELECT left('abcdef',3)
+SELECT right('abcdef',3)
+SELECT len('abcdef')
+SELECT upper('abcdef')
+SELECT lower('ABCDEF')
+SELECT ltrim('             ABCDEF                 ')
+SELECT rtrim('             ABCDEF                 ')
+SELECT len(rtrim(ltrim('             ABCDEF                 ')))
+SELECT Replace('abcdaf','a','zz')
+SELECT reverse('abcdaf')
+
+SELECT Replace('abcdaf','a','zz')
+SELECT str(111)
+
+SELECT substring('abcdaf',2,3)
+
+
+ 
